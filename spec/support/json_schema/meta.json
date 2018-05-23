@@ -1,0 +1,33 @@
+{
+  "show": {
+    "type": "object",
+    "properties": {
+      "messages": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["type", "text"]
+        }
+      }
+    }
+  },
+  "index": {
+    "type": "object",
+    "required": [
+      "offset",
+      "limit",
+      "total"
+    ],
+    "properties": {
+      "offset": {
+        "type": "integer"
+      },
+      "limit": {
+        "type": "integer"
+      },
+      "total": {
+        "type": "integer"
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "required": ["data", "meta"],
+  "properties": {
+    "meta": {
+      "$ref": "../meta.json#/show"
+    },
+    "data": {
+      "allOf": [
+        { "$ref": "../user.json" }
+      ]
+    }
+  }
+}

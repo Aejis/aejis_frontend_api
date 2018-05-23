@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "required": ["data", "meta"],
+  "properties": {
+    "meta": { "$ref": "../meta.json#/index" },
+    "data": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "../user.json" },
+          { "required": [] }
+        ]
+      }
+    }
+  }
+}
