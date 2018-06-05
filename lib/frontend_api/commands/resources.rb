@@ -4,7 +4,7 @@ module FrontendApi
       def permitted_attrs
         settable_attrs = resource_class.writable_attributes.keys -
                          resource_class.find_attributes(type: :file).keys
-        @attrs.slice(*settable_attrs.map(&:to_s))
+        @attrs.transform_keys { |key| key.to_sym rescue key }.slice(*settable_attrs)
       end
 
       def resource_class
