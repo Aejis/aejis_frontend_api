@@ -31,7 +31,7 @@ module FrontendApi
         messages = format_messages([], warnings)
         messages << { type: :success, text: success } if success.is_a?(String)
 
-        BaseRender.render status: status, json: serialize_object(object, meta: { messages: messages })
+        render status: status, json: serialize_object(object, meta: { messages: messages })
       end
 
       # Internal method to render a result of a failed action.
@@ -39,13 +39,12 @@ module FrontendApi
         errors = { base: errors } if errors.is_a?(Array)
         messages = format_messages(errors.fetch(:base, []), warnings)
         errors = errors.tap { |hs| hs.delete(:base) }
-
         if messages.empty?
           text = "#{entity_name} has not been saved: #{errors.size} error/s found!"
           messages << { type: :error, text: text }
         end
 
-        BaseRender.render status: status, json: { messages: messages, errors: errors }
+        render status: status, json: { messages: messages, errors: errors }
       end
 
       def format_messages(errors = [], warnings = [])

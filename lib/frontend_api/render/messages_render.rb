@@ -29,12 +29,20 @@ module FrontendApi
         "#{entity_name} has been archived successfully."
       end
 
+      def unarchive_message
+        "#{entity_name} has been unarchived successfully."
+      end
+
       def schedule_message
         "#{entity_name} has been scheduled successfully."
       end
 
       def action_message
         send :"#{request.request_method.downcase}_message" if respond_to?(:"#{request.request_method.downcase}_message")
+      end
+
+      def entity_name
+        'Object'
       end
     end
   end

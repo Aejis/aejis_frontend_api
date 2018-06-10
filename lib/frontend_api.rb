@@ -27,17 +27,4 @@ require 'frontend_api/render/command_render'
 module FrontendApi
   include Render::Model
   include Render::Command
-
-  # def self.render(*args, &block)
-  #   case (obj = args.first)
-  #   when Sequel::Model
-  #     render_model obj
-  #   when Sequel::Dataset
-  #     render_models obj
-  #   when Commands::Result
-  #     render_command_result obj
-  #   else
-  #     super
-  #   end
-  # end
 end

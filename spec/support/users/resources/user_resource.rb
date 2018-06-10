@@ -7,5 +7,7 @@ module FrontendApi
     scope required: true do
       attribute :name
     end
+
+    attribute :position
   end
 end

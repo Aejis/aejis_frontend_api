@@ -9,6 +9,8 @@ module FrontendApi
           # hard failure on save error
           object.save_changes(raise_on_failure: true)
           Success(object)
+        rescue Sequel::Plugins::OptimisticLocking::Error
+          Failure(base: ['You form is outdated, refresh the page and try again'])
         end
       end
     end

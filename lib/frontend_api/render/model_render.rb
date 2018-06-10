@@ -26,7 +26,7 @@ module FrontendApi
       # nil is not a model class thus can not be rendered.
       def render_model(model)
         if model
-          BaseRender.render json: serialize_model(model)
+          render json: serialize_model(model)
         else
           head :not_found
         end
@@ -38,7 +38,7 @@ module FrontendApi
       # Empty collection is still a valid collection
       # thereby this method does never result in 404.
       def render_models(models)
-        BaseRender.render json: serialize_models(models)
+        render json: serialize_models(models)
       end
 
       def serialize_model(model, options = {})

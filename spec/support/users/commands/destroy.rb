@@ -4,6 +4,7 @@ module FrontendApi
       #
       class Destroy
         include Result::Mixin
+        include PositionUpdate
 
         def self.call(user)
           new(user).call
@@ -11,6 +12,7 @@ module FrontendApi
 
         def call
           @user.destroy
+          destroy_position(@user)
           Success(@user)
         end
 

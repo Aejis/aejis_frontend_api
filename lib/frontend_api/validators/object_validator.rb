@@ -47,7 +47,7 @@ module FrontendApi
       Array(attrs).each do |attr|
         value = @object.respond_to?(attr) ? @object.send(attr) : nil
         # consider explicit `false` as an actual value (not blank)
-        error(attr, 'is required') unless value == false || value
+        error(attr, 'is required') unless value == false || value && value != ''
       end
     end
 

@@ -1,8 +1,8 @@
 module FrontendApi
   module Render
     module BaseRender
-      def render(parameters)
-        # parameters[:json].merge!(include_entity) if parameters.is_a?(Hash) && !params[:include_entity].blank?
+      # TODO: Add include_entity
+      def self.render_json(parameters)
         response = []
         response << parameters[:status] if parameters[:status]
         response.empty? ? parameters[:json].to_json : response << [parameters[:json].to_json]
@@ -11,7 +11,6 @@ module FrontendApi
       def find!(klass)
         klass[params[klass.primary_key]] or halt 404
       end
-
 
       def render_resources(resources)
         resources = resources.each_with_object({}) do |resource, h|
@@ -33,15 +32,8 @@ module FrontendApi
         { json: resources }.to_json
       end
 
-    private
-
-      def include_entity
-        entity = "CMS::#{params[:include_entity][:entity].capitalize}".classify
-        dataset = Object.const_get(entity)&.dataset || {}
-        filter = params[:include_entity][:params] || {}
-        filter[:meta] = filter['for_list']
-        included_entities = Object.const_get("#{entity.pluralize}Filter")&.new(filter)&.filter(dataset) || {}
-        { include_entity: serialize_object(included_entities, filter) }
+      def render_not_found
+        render status: :not_found, json: { messages: [format_error('Object not found')] }
       end
     end
   end

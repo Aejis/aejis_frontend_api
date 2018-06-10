@@ -16,33 +16,48 @@ class User < Sequel::Model
   end
 end
 
+helpers do
+  def render(*args, &block)
+    case (obj = args.first)
+    when Sequel::Model
+      render_model obj
+    when Sequel::Dataset
+      render_models obj
+    when FrontendApi::Commands::Result
+      render_command_result obj
+    else
+      Render::BaseRender.render_json obj
+    end
+  end
+end
+
 before do
   content_type :json
 end
 
 # GET /users
 get '/users' do
-  render_models DatasetFilter.new(params).filter(User.dataset)
+  render DatasetFilter.new(params).filter(User.dataset)
 end
 
 # GET /users/:id
 get '/users/:id' do
-  render_model user
+  render user
 end
 
 # POST /users
 post '/users' do
-  render_command_result Commands::Users::Create.call(params)
+  render Commands::Users::Create.call(params)
 end
 
 # PUT /users/:id
 put '/users/:id' do
-  render_command_result Commands::Users::Save.call(user, params)
+  render Commands::Users::Save.call(user, params)
 end
 
 # DELETE /users/:id
 delete '/users/:id' do
-  render_command_result Commands::Users::Destroy.call(user)
+  render Commands::Users::Destroy.call(user)
 end
 
 def user

@@ -2,7 +2,8 @@
   "type": "object",
   "required": [
     "id",
-    "name"
+    "name",
+    "position"
   ],
   "properties": {
   }

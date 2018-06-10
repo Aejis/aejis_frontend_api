@@ -2,7 +2,6 @@ require 'spec_helper'
 include ImageHelper
 
 RSpec.describe 'Create' do
-
   context 'when valid' do
     before { post('/users', params) }
     let(:params)  { User.new(name: 'Create').to_hash }
