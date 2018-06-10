@@ -15,7 +15,7 @@ module FrontendApi
       def render_resources(resources)
         resources = resources.each_with_object({}) do |resource, h|
           model_name = resource.name.demodulize.chomp('Resource')
-          filter_name = "CMS::#{model_name.classify.pluralize}Filter"
+          filter_name = "#{model_name.classify.pluralize}Filter"
           filter = begin
             Object.const_get(filter_name)
           rescue NameError
