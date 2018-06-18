@@ -17,9 +17,9 @@ module FrontendApi
           model_name = resource.name.demodulize.chomp('Resource')
           filter_name = "#{model_name.classify.pluralize}Filter"
           filter = begin
-            Object.const_get(filter_name)
+            NestedConstFinder.nested_const_get(Module.nesting, filter_name)
           rescue NameError
-            DatasetFilter
+            NestedConstFinder.nested_const_get(Module.nesting, 'DatasetFilter')
           end
           h[model_name.tableize] = {
             attributes: resource.attributes,
