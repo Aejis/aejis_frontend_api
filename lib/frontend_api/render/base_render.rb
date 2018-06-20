@@ -29,7 +29,7 @@ module FrontendApi
             filters: filter.filters.keys
           }
         end
-        { json: resources }.to_json
+        render json: resources
       end
 
       def render_not_found
