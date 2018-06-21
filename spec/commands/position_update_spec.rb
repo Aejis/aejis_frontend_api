@@ -40,7 +40,7 @@ RSpec.describe FrontendApi::Commands::PositionUpdate do
     end
 
     context 'when position empty' do
-      let(:params) { User.new(name: '1', position: '').to_hash }
+      let(:params) { User.new(name: '1').to_hash.merge(position: '') }
 
       it 'should create entity with position' do
         request
@@ -49,7 +49,17 @@ RSpec.describe FrontendApi::Commands::PositionUpdate do
       end
     end
 
-    context 'when position 0 or negative' do
+    context 'when position 0' do
+      let(:params) { User.new(name: '0', position: 0).to_hash }
+
+      it 'should return error' do
+        request
+        expect(last_response.status).to eq(422)
+        expect(JSON.parse(last_response.body)['errors']['position'].first).to eq 'should be greater than zero'
+      end
+    end
+
+    context 'when position negative' do
       let(:params) { User.new(name: '-1', position: -1).to_hash }
 
       it 'should return error' do

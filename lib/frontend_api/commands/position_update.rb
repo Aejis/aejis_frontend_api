@@ -3,7 +3,7 @@ module FrontendApi
     module PositionUpdate
     private
       def update_position(model)
-        if permitted_attrs[:position]
+        if permitted_attrs[:position] && permitted_attrs[:position] != ''
           return if permitted_attrs[:position].to_i <= 0
           if model.position.nil?
             max_position = model.class.max(:position) || 0
