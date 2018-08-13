@@ -46,9 +46,18 @@ module FrontendApi
       # DSL method
       def association(name, options={})
         options = options.merge(@scope)
+        assoc = model_class.association_reflection(name)
 
-        define_method(name) do
-          @object.send(name)
+        if block_given?
+          define_method(name) do
+            val = yield(@object.send("#{name.to_s}_dataset"))
+            val = val.first unless assoc.returns_array?
+            val
+          end
+        else
+          define_method(name) do
+            @object.send(name)
+          end
         end
 
         @associations ||= {}
@@ -69,7 +78,6 @@ module FrontendApi
           opts[:readable] = !options[:writeonly] if options.key?(:writeonly)
         end
 
-        assoc = model_class.association_reflection(name)
         klass = Object.const_get(assoc[:class_name])
         @associations[name] = @associations[name].merge(
           class: klass,
@@ -78,7 +86,7 @@ module FrontendApi
         if assoc.returns_array?
           @associations[name][:type] = :many
           @associations[name][:attribute] = attr = :"#{name.to_s.singularize}_pks"
-          attribute attr, options.merge(type: :integer, array: true)
+          attribute attr, options.merge(type: :integer, array: true, writeonly: true)
         else
           @associations[name][:type] = :one
           @associations[name][:attribute] = attr = assoc[:key]
@@ -153,9 +161,9 @@ module FrontendApi
         end
       end
 
-      def resource_for(name, nesting = Module.nesting)
+      def resource_for(name, resource_nesting = Module.nesting)
         name = "#{name}Resource"
-        NestedConstFinder.nested_const_get(nesting, name)
+        NestedConstFinder.nested_const_get(resource_nesting, name)
       rescue NameError
         raise MissingResource, "Missing resource #{name}"
       end

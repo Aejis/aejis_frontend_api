@@ -9,7 +9,9 @@ module FrontendApi
       end
 
       def find!(klass)
-        klass[params[klass.primary_key]] or halt 404
+        result = klass[params[klass.primary_key]]
+        return result if result
+        defined?(halt) ? halt(404) : raise(NestedConstFinder.nested_const_get([self.class], 'NotFoundError'))
       end
 
       def render_resources(resources)
@@ -17,9 +19,9 @@ module FrontendApi
           model_name = resource.name.demodulize.chomp('Resource')
           filter_name = "#{model_name.classify.pluralize}Filter"
           filter = begin
-            NestedConstFinder.nested_const_get(Module.nesting, filter_name)
+            NestedConstFinder.nested_const_get([resource.parent], filter_name)
           rescue NameError
-            NestedConstFinder.nested_const_get(Module.nesting, 'DatasetFilter')
+            NestedConstFinder.nested_const_get([resource.parent], 'DatasetFilter')
           end
           h[model_name.tableize] = {
             attributes: resource.attributes,
@@ -30,10 +32,6 @@ module FrontendApi
           }
         end
         render json: resources
-      end
-
-      def render_not_found
-        render status: :not_found, json: { messages: [format_error('Object not found')] }
       end
     end
   end

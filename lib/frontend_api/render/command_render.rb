@@ -30,7 +30,6 @@ module FrontendApi
         success = action_message if success.is_a?(TrueClass)
         messages = format_messages([], warnings)
         messages << { type: :success, text: success } if success.is_a?(String)
-
         render status: status, json: serialize_object(object, meta: { messages: messages })
       end
 
