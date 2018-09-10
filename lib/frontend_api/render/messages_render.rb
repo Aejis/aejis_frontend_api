@@ -39,9 +39,9 @@ module FrontendApi
 
       def action_message
         if defined?(action_name)
-          send :"#{action_name}_message" if respond_to?(:"#{action_name}_message")
+          send :"#{action_name}_message" if respond_to?(:"#{action_name}_message", true)
         else
-          send :"#{request.request_method.downcase}_message" if respond_to?(:"#{request.request_method.downcase}_message")
+          send :"#{request.request_method.downcase}_message" if respond_to?(:"#{request.request_method.downcase}_message", true)
         end
       end
 
