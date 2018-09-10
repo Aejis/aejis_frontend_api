@@ -7,7 +7,7 @@ module FrontendApi
   class HashValidator < ModelValidator
   private
 
-    def initialize(hash)
+    def initialize(hash, *attrs)
       super(OpenStruct.new(hash))
     end
   end

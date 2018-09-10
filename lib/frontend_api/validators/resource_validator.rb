@@ -25,7 +25,7 @@ module FrontendApi
       end
     end
 
-    def initialize(object)
+    def initialize(object, *attrs)
       super
       # set a named variable for convenience and to loosen dependency on superclass
       # e.g. @post for PostValidator

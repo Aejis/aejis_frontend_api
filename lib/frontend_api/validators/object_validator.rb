@@ -20,9 +20,10 @@ module FrontendApi
       end
     end
 
-    def initialize(object)
+    def initialize(object, attrs=[])
       @errors = {}
       @object = object
+      @attrs = attrs
     end
 
     # Executes validation process.
