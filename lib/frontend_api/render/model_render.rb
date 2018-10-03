@@ -44,12 +44,14 @@ module FrontendApi
       def serialize_model(model, options = {})
         options[:include] ||= member_includes
         options[:meta] ||= {}
+        options[:current_user] ||= current_user if respond_to?(:current_user) && current_user
         serializer_for_model(model.model).serialize(model, options)
       end
 
       def serialize_models(models, options = {})
         options[:include] ||= collection_includes
         options[:meta] ||= true if params['for_list'] == 'true'
+        options[:current_user] ||= current_user if respond_to?(:current_user) && current_user
         serializer_for_model(models.model).serialize(models, options)
       end
 

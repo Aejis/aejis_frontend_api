@@ -11,7 +11,7 @@ module FrontendApi
 
         if block_given?
           define_method(name) do
-            yield @object
+            yield @object, @opts
           end
         else
           define_method(name) do
@@ -169,8 +169,9 @@ module FrontendApi
       end
     end
 
-    def initialize(object)
+    def initialize(object, opts)
       @object = object
+      @opts   = opts
     end
   end
 end

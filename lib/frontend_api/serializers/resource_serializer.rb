@@ -74,7 +74,7 @@ module FrontendApi
       return { data: nil } unless model
 
       serializer = self.class.serializer_for_model(model.class)
-      model = @resource_class.new(model)
+      model = @resource_class.new(model, opts)
       data = {}
       attributes.each { |attr| data[attr] = model.send(attr) }
       includes = Array(opts[:include] || []).map(&:to_sym)
