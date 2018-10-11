@@ -87,7 +87,9 @@ module FrontendApi
             incl_array = incl_serializer.serialize(model.send(assoc).map { |entity| entity.send(incl) }.compact)&.fetch(:data)
             data[assoc] = data[assoc].each_with_index { |entity, index| entity[incl] = incl_array[index] }
           else
-            data[assoc][incl] = serializer.serialize(model.send(assoc).send(incl))&.fetch(:data)
+            incl_data = serializer.serialize(model.send(assoc)&.send(incl))&.fetch(:data)
+            next unless incl_data
+            data[assoc][incl] = incl_data
           end
         end
       end
