@@ -16,7 +16,7 @@ module FrontendApi
 
       def render_resources(resources)
         resources = resources.each_with_object({}) do |resource, h|
-          model_name = resource.name.demodulize.chomp('Resource')
+          model_name = resource.name.split('::').last.chomp('Resource')
           filter_name = "#{model_name.classify.pluralize}Filter"
           filter = begin
             NestedConstFinder.nested_const_get([resource.parent], filter_name)

@@ -1,0 +1,100 @@
+AllCops:
+  TargetRubyVersion: 2.5
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  Exclude:
+    - 'vendor/**/*'
+    - 'bin/*'
+    - 'db/**/*'
+    - 'node_modules/**/*'
+Rails:
+  Enabled: false
+
+AndOr:
+  Enabled: false
+
+EmptyLinesAroundClassBody:
+  Enabled: false
+
+EmptyLinesAroundModuleBody:
+  Enabled: false
+
+EmptyLinesAroundMethodBody:
+  Enabled: false
+
+EmptyLinesAroundBlockBody:
+  Enabled: false
+
+EndAlignment:
+  EnforcedStyleAlignWith: variable
+
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+    - 'config/**/*'
+    - 'spec/acceptance/**/*'
+    - 'spec/database/**/*'
+
+Metrics/ModuleLength:
+  Exclude:
+    - 'features/**/*'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'features/**/*'
+
+SpaceAroundEqualsInParameterDefault:
+  Enabled: false
+
+TrivialAccessors:
+  ExactNameMatch: true
+  AllowPredicates: true
+
+Layout/SpaceBeforeFirstArg:
+  Enabled: false
+
+Layout/CaseIndentation:
+  Enabled: true
+
+Metrics/ClassLength:
+  Max: 120
+
+# Changes from template
+
+Lint/AssignmentInCondition:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/BracesAroundHashParameters:
+  EnforcedStyle: context_dependent
+  Exclude:
+    - spec/support/helpers/acceptance/internal_api_helpers.rb
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Layout/AccessModifierIndentation:
+  EnforcedStyle: outdent
+
+Metrics/AbcSize:
+  Max: 30
+  Exclude:
+    - 'features/**/*'
+
+Rails/DynamicFindBy:
+  Enabled: false
+
+Rails/HttpPositionalArguments:
+  Enabled: false
+
+Metrics/BlockLength:
+  Max: 25
+  Exclude:
+    - 'config/**/*'
+    - 'spec/**/*'
+    - 'features/**/*'
+
+Style/Documentation:
+  Enabled: false

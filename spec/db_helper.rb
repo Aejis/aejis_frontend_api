@@ -9,3 +9,7 @@ DB.create_table :users do
   column :image_urls, :jsonb, null: false, default: '{}'
   column :position, Integer, default: 1
 end
+
+DB.create_table :programmers do
+  primary_key :id
+end

@@ -6,6 +6,9 @@ require 'support/users/resources/user_resource'
 require 'support/users/validators/user_validator'
 require 'support/users/serializers/user_serializer'
 require 'support/users/filters/dataset_filter'
+require 'support/programmers/resources/programmer_resource'
+require 'support/programmers/validators/programmer_validator'
+require 'support/programmers/serializers/programmer_serializer'
 
 include FrontendApi
 use JSONMultipartFormData
@@ -18,11 +21,11 @@ end
 
 helpers do
   def render(*args, &block)
-    case (obj = args.first)
+    case (obj = args.shift)
     when Sequel::Model
-      render_model obj
+      render_model obj, args.first
     when Sequel::Dataset
-      render_models obj
+      render_models obj, args.first
     when FrontendApi::Commands::Result
       render_command_result obj
     else
@@ -37,7 +40,7 @@ end
 
 # GET /users
 get '/users' do
-  render DatasetFilter.new(params).filter(User.dataset)
+  render DatasetFilter.new(params).filter(User.dataset), vegan: true, programmer: false
 end
 
 # GET /users/:id
