@@ -1,5 +1,4 @@
 require_relative 'nested_const_finder'
-require 'pry'
 
 module FrontendApi
   class Resource
