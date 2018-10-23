@@ -3,7 +3,8 @@
   "required": [
     "id",
     "name",
-    "position"
+    "position",
+    "vegan"
   ],
   "properties": {
   }

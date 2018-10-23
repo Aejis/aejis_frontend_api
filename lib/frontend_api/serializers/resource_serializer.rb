@@ -13,6 +13,7 @@ module FrontendApi
 
       def serialize_models(objects, opts = {})
         return { data: [] } if !objects.respond_to?(:model) && objects.empty?
+
         klass = objects.respond_to?(:model) ? objects.model : objects.first.class
         resource = resource_for_model(klass)
         new(resource).serialize_models(objects, opts)
@@ -20,6 +21,7 @@ module FrontendApi
 
       def serialize_model(object, opts = {})
         return { data: nil } unless object
+
         klass = object.respond_to?(:model) ? object.model : object.class
         resource = resource_for_model(klass)
         new(resource).serialize_model(object, opts)
@@ -60,9 +62,10 @@ module FrontendApi
 
     def serialize_models(dataset, opts = {})
       return { data: [] } unless dataset
+
       records = dataset.respond_to?(:eager) ? dataset.eager(*associations).all : dataset
       data = records.map { |record| serialize_model(record, opts)&.fetch(:data) }
-      return { data: data } unless opts[:meta]
+      return { data: data } unless !dataset.is_a?(Array) && opts[:meta]
 
       meta = dataset_meta(dataset)
       meta = meta.merge(dynamic_meta)
@@ -79,8 +82,9 @@ module FrontendApi
       attributes.each { |attr| data[attr] = model.send(attr) }
       includes = Array(opts[:include] || []).map(&:to_sym)
       (associations & includes).each do |assoc|
-        data[assoc] = serializer.serialize(model.send(assoc))&.fetch(:data)
+        data[assoc] = serializer.serialize(model.send(assoc), opts)&.fetch(:data)
         next unless include_in_association(assoc)
+
         include_in_association(assoc).each do |incl|
           if data[assoc].is_a?(Array)
             incl_serializer = NestedConstFinder.nested_const_get(Module.nesting, "#{incl.to_s.capitalize}Serializer")
@@ -89,6 +93,7 @@ module FrontendApi
           else
             incl_data = serializer.serialize(model.send(assoc)&.send(incl))&.fetch(:data)
             next unless incl_data
+
             data[assoc][incl] = incl_data
           end
         end

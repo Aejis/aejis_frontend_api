@@ -56,7 +56,7 @@ module FrontendApi
           end
         else
           define_method(name) do
-            @object.send(name)
+            @object.send(name, @opts)
           end
         end
 
@@ -92,7 +92,6 @@ module FrontendApi
           @associations[name][:attribute] = attr = assoc[:key]
           attribute attr, options.merge(association: name, type: :integer) if attr
         end
-
         @attributes[attr][:association] = name if attr
       end
 
@@ -120,7 +119,7 @@ module FrontendApi
       end
 
       def model_class
-        @model_class ||= Object.const_get(name.demodulize.gsub(/Resource\z/, ''))
+        @model_class ||= Object.const_get(name.split('::').last.gsub(/Resource\z/, ''))
       end
 
       def attributes

@@ -9,5 +9,10 @@ module FrontendApi
     end
 
     attribute :position
+    attribute :vegan do |user, opts|
+      opts[:vegan] == 'true' ? true : false
+    end
+    # TODO: write and fix tests for association
+    # association :programmers
   end
 end

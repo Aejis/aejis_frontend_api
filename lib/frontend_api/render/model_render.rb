@@ -24,9 +24,9 @@ module FrontendApi
       # Method responsible for proper json rendering of a model.
       # Renders a model or results in 404 Not Found if the model is nil.
       # nil is not a model class thus can not be rendered.
-      def render_model(model)
+      def render_model(model, options = {})
         if model
-          render json: serialize_model(model)
+          render json: serialize_model(model, options || {})
         else
           head :not_found
         end
@@ -37,21 +37,19 @@ module FrontendApi
       # Renders a collection of models.
       # Empty collection is still a valid collection
       # thereby this method does never result in 404.
-      def render_models(models)
-        render json: serialize_models(models)
+      def render_models(models, options = {})
+        render json: serialize_models(models, options || {})
       end
 
       def serialize_model(model, options = {})
         options[:include] ||= member_includes
         options[:meta] ||= {}
-        options[:current_user] ||= current_user if respond_to?(:current_user) && current_user
         serializer_for_model(model.model).serialize(model, options)
       end
 
       def serialize_models(models, options = {})
         options[:include] ||= collection_includes
         options[:meta] ||= true if params['for_list'] == 'true'
-        options[:current_user] ||= current_user if respond_to?(:current_user) && current_user
         serializer_for_model(models.model).serialize(models, options)
       end
 

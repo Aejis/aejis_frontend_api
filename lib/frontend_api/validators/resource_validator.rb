@@ -30,22 +30,12 @@ module FrontendApi
       # set a named variable for convenience and to loosen dependency on superclass
       # e.g. @post for PostValidator
       if (name = self.class.name)
-        klass = demodulize(name.gsub(/Validator\z/, ''))
+        klass = name.split('::').last.gsub(/Validator\z/, '')
         instance_variable_set("@#{underscore(klass)}", object)
       end
     end
 
   private
-
-    # Method from ActiveSupport::Inflector
-    def demodulize(path)
-      path = path.to_s
-      if i = path.rindex("::")
-        path[(i + 2)..-1]
-      else
-        path
-      end
-    end
 
     # Method from ActiveSupport::Inflector
     def underscore(camel_cased_word)

@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'sinatra'
   spec.add_development_dependency 'rack-test'
   spec.add_development_dependency 'json_matchers', '= 0.7.3'
+  spec.add_development_dependency 'rubocop'
 
   spec.add_runtime_dependency 'sequel', '~> 5.9'
 end
