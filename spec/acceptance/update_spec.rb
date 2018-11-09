@@ -14,7 +14,7 @@ RSpec.describe 'Update' do
   end
 
   context 'when invalid' do
-    let(:params) { {name: nil} }
+    let(:params) { { name: nil } }
     it 'should respond with 422' do
       expect(last_response.status).to eq(422)
     end

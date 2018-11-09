@@ -5,7 +5,9 @@ RSpec.describe FrontendApi::ModelValidator do
     let(:validator_class) do
       Class.new(described_class) do
         validates :foo, :args
-        private
+
+      private
+
         def foo(args); end
       end
     end

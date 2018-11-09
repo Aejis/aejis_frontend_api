@@ -20,7 +20,7 @@ class User < Sequel::Model
 end
 
 helpers do
-  def render(*args, &block)
+  def render(*args)
     case (obj = args.shift)
     when Sequel::Model
       render_model obj, args.first

@@ -4,7 +4,7 @@ include ImageHelper
 RSpec.describe 'Create' do
   context 'when valid' do
     before { post('/users', params) }
-    let(:params)  { User.new(name: 'Create').to_hash }
+    let(:params) { User.new(name: 'Create').to_hash }
 
     it 'should create' do
       expect(last_response.status).to eq(200)
@@ -23,7 +23,7 @@ RSpec.describe 'Create' do
       multipart(:post, '/users', params, files)
     end
 
-    let(:params)  { User.new(name: 'ImageCreate').to_hash }
+    let(:params) { User.new(name: 'ImageCreate').to_hash }
 
     let(:files) do
       ['image'].map { |attr| [attr, uploaded_file('img.jpg')] }.to_h

@@ -23,6 +23,7 @@ module FrontendApi
     filter(:sort) do |ds, sort|
       sort = sort.to_sym
       next ds unless ds.columns.include?(sort)
+
       params[:dir] == 'desc' ? ds.order(Sequel.desc(sort)) : ds.order(Sequel.asc(sort))
     end
     filter(:dir) { |ds, _| ds } # for documentation purposes
@@ -44,16 +45,14 @@ module FrontendApi
       @params = params
     end
 
-    def params
-      @params
-    end
+    attr_reader :params
 
     # apply all filter defined with DatasetFilter.filter
     def apply_filters(dataset)
       fltrs = self.class.filters
       fltrs[:required_id] = fltrs.delete(:required_id)
       fltrs.reduce(dataset) do |ds, (key, block)|
-        params.has_key?(key) ? block.call(ds, params[key], params) : ds
+        params.key?(key) ? block.call(ds, params[key], params) : ds
       end
     end
   end

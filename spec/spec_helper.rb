@@ -12,7 +12,9 @@ require 'pry'
 
 module RSpecMixin
   include Rack::Test::Methods
-  def app() Sinatra::Application end
+  def app
+    Sinatra::Application
+  end
 end
 
 RSpec.configure do |config|
@@ -56,4 +58,3 @@ RSpec.configure do |config|
 end
 
 JsonMatchers.schema_root = 'spec/support/json_schema'
-

@@ -4,8 +4,8 @@ module FrontendApi
       attribute :id
     end
 
-    attribute :php do |programmer, opts|
-      opts[:vegan] == 'true' ? true : false
+    attribute :php do |_programmer, opts|
+      opts[:vegan] == 'true'
     end
   end
 end

@@ -11,6 +11,7 @@ module FrontendApi
     def uniqueness(attrs, conditions = nil)
       Array(attrs).each do |attr|
         next unless (value = @object.send(attr))
+
         dups = @object.class.dataset
         dups = dups.exclude(@object.model.primary_key => @object.pk) if @object.pk
         dups = dups.where(conditions) if conditions

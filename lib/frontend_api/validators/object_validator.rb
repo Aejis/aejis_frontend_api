@@ -56,9 +56,7 @@ module FrontendApi
     # checks that attr value belongs to a given array
     def inclusion(attrs, array)
       Array(attrs).each do |attr|
-        unless array.include?(@object.send(attr))
-          error(attr, "should be one of #{array}")
-        end
+        error(attr, "should be one of #{array}") unless array.include?(@object.send(attr))
       end
     end
 
@@ -69,9 +67,7 @@ module FrontendApi
       numeric(attrs, klass) if klass
       Array(attrs).each do |attr|
         # invalid numbers convert to 0.0 and fail validation automatically
-        unless @object.send(attr).to_f.positive?
-          error(attr, 'should be greater than zero')
-        end
+        error(attr, 'should be greater than zero') unless @object.send(attr).to_f.positive?
       end
     end
 
@@ -81,15 +77,16 @@ module FrontendApi
       unless [Integer, Float].include?(klass)
         raise ArgumentError, 'Either Integer or Float allowed for #numeric validation'
       end
+
       Array(attrs).each do |attr|
-        begin
-          # the same as
-          #   val = Integer(@object.send(attr))
-          # for klass = Integer
-          Object.method(klass.name).call(@object.send(attr))
-        rescue ArgumentError, TypeError
-          error(attr, "should be #{klass.name}")
-        end
+
+        # the same as
+        #   val = Integer(@object.send(attr))
+        # for klass = Integer
+        Object.method(klass.name).call(@object.send(attr))
+      rescue ArgumentError, TypeError
+        error(attr, "should be #{klass.name}")
+
       end
     end
 
@@ -119,7 +116,7 @@ module FrontendApi
     def url?(url)
       url = begin
               URI.parse(url)
-            rescue
+            rescue StandardError
               false
             end
       url.is_a?(URI::HTTP) || url.is_a?(URI::HTTPS)

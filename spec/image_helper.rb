@@ -12,7 +12,7 @@ module ImageHelper
     multipart(:post, url, params, files)
   end
 
-  def put_multipart( url, params, files)
+  def put_multipart(url, params, files)
     multipart(:put, url, params, files)
   end
 
@@ -21,8 +21,8 @@ module ImageHelper
     json_file << params.to_json
     json_file.flush
     send(method, url,
-          files.merge(json: Rack::Test::UploadedFile.new(json_file, 'application/json')),
-          { 'ACCEPT' => 'application/json' })
+         files.merge(json: Rack::Test::UploadedFile.new(json_file, 'application/json')),
+         'ACCEPT' => 'application/json')
   ensure
     json_file.close
     json_file.unlink

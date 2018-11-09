@@ -1,7 +1,6 @@
 module FrontendApi
   module Commands
     module Users
-      #
       class Destroy
         include Result::Mixin
         include PositionUpdate

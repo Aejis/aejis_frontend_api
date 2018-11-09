@@ -11,6 +11,7 @@ module FrontendApi
       def find!(klass)
         result = klass[params[klass.primary_key]]
         return result if result
+
         defined?(halt) ? halt(404) : raise(NestedConstFinder.nested_const_get([self.class], 'NotFoundError'))
       end
 
@@ -20,8 +21,8 @@ module FrontendApi
           filter_name = "#{model_name.classify.pluralize}Filter"
           filter = begin
             NestedConstFinder.nested_const_get([resource.parent], filter_name)
-          rescue NameError
-            NestedConstFinder.nested_const_get([resource.parent], 'DatasetFilter')
+                   rescue NameError
+                     NestedConstFinder.nested_const_get([resource.parent], 'DatasetFilter')
           end
           h[model_name.tableize] = {
             attributes: resource.attributes,

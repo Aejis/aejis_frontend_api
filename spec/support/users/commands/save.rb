@@ -1,7 +1,6 @@
 module FrontendApi
   module Commands
     module Users
-      #
       class Save
         include Adapters::Mixin
         include Result::Mixin

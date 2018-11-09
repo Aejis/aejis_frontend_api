@@ -9,6 +9,7 @@ module FrontendApi
       if request.form_data?
         request.params.each do |key, value|
           next unless json_blob?(value)
+
           json = JSON.parse(value[:tempfile].read)
           if json.is_a?(Hash)
             # merge json object into request params

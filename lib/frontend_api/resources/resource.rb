@@ -50,7 +50,7 @@ module FrontendApi
 
         if block_given?
           define_method(name) do
-            val = yield(@object.send("#{name.to_s}_dataset"))
+            val = yield(@object.send("#{name}_dataset"))
             val = val.first unless assoc.returns_array?
             val
           end
