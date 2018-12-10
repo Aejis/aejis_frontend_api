@@ -47,6 +47,7 @@ module FrontendApi
     def presence(attrs)
       Array(attrs).each do |attr|
         value = @object.respond_to?(attr) ? @object.send(attr) : nil
+        # TODO: write some tests
         # consider explicit `false` as an actual value (not blank)
         error(attr, 'is required') unless value == false || value && value != ''
       end

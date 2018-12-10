@@ -87,7 +87,7 @@ module FrontendApi
 
         include_in_association(assoc).each do |incl|
           if data[assoc].is_a?(Array)
-            incl_serializer = NestedConstFinder.nested_const_get(Module.nesting, "#{incl.to_s.capitalize}Serializer")
+            incl_serializer = NestedConstFinder.nested_const_get([@resource_class.parent], "#{incl.to_s.capitalize}Serializer")
             incl_array = incl_serializer.serialize(model.send(assoc).map { |entity| entity.send(incl) }.compact)&.fetch(:data)
             data[assoc] = data[assoc].each_with_index { |entity, index| entity[incl] = incl_array[index] }
           else

@@ -8,6 +8,7 @@ module FrontendApi
     # predefined validation method
     # checks that one or more attrs of Sequel::Model have unique values
     # each attr in checked individually!
+    # TODO: send conditions doesn't work
     def uniqueness(attrs, conditions = nil)
       Array(attrs).each do |attr|
         next unless (value = @object.send(attr))
