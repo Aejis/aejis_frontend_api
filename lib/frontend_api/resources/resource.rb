@@ -47,10 +47,9 @@ module FrontendApi
       def association(name, options={})
         options = options.merge(@scope)
         assoc = model_class.association_reflection(name)
-
         if block_given?
           define_method(name) do
-            val = yield(@object.send("#{name}_dataset"))
+            val = yield(@object.send("#{name}_dataset"), @opts)
             val = val.first unless assoc.returns_array?
             val
           end
