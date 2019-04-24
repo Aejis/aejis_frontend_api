@@ -1,4 +1,8 @@
-require: rubocop-gitlab-security
+require:
+  - 'rubocop-sequel'
+  - 'rubocop-gitlab-security'
+  - 'rubocop-performance'
+  - 'rubocop-rspec'
 
 AllCops:
   TargetRubyVersion: 2.5
