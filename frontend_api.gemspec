@@ -34,6 +34,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'rubocop-gitlab-security'
+  spec.add_development_dependency 'rubocop-performance'
+  spec.add_development_dependency 'rubocop-rspec'
+  spec.add_development_dependency 'rubocop-sequel'
   spec.add_development_dependency 'sinatra'
   spec.add_development_dependency 'sqlite3'
 
