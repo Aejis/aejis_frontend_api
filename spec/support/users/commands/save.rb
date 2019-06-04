@@ -13,8 +13,9 @@ module FrontendApi
         end
 
         def call
+          @attrs[:position_dataset] ? update_position(@user, User.exclude(name: '2')) : update_position(@user)
+
           Result(@user)
-            .tap(method(:update_position))
             .tap(method(:update_attrs))
             .then(Validate(UserValidator))
             .tap(method(:upload_files))

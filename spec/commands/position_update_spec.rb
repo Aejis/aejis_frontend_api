@@ -68,6 +68,19 @@ RSpec.describe FrontendApi::Commands::PositionUpdate do
         expect(JSON.parse(last_response.body)['errors']['position'].first).to eq 'should be greater than zero'
       end
     end
+
+    context 'when dataset is present' do
+      let!(:first_entity)  { User.create(name: '1', position: 1) }
+      let!(:second_entity) { User.create(name: '2', position: 2) }
+      let(:params)         { User.new(name: '3', position: 1).to_hash.merge(position_dataset: true) }
+
+      it 'updade position use dataset' do
+        request
+        expect(last_response.status).to eq(200)
+        expect(User[JSON.parse(last_response.body)['data']['id']].position).to eq 1
+        expect(first_entity.reload.position).to eq 2
+      end
+    end
   end
 
   describe 'Update position' do
@@ -157,6 +170,21 @@ RSpec.describe FrontendApi::Commands::PositionUpdate do
         expect(entity.reload.position).to eq 1
       end
     end
+
+    context 'when dataset is present' do
+      let!(:entity)  { User.create(name: '1', position: 1) }
+      let!(:second_entity) { User.create(name: '2', position: 2) }
+      let!(:third_entity)   { User.create(name: '3', position: 3) }
+      let(:params)         { User.new(name: '4', position: 2).to_hash.merge(position_dataset: true) }
+      let(:id)      { entity.id }
+
+      it 'updade position use dataset' do
+        request
+        expect(last_response.status).to eq(200)
+        expect(User[JSON.parse(last_response.body)['data']['id']].position).to eq 2
+        expect(entity.reload.position).to eq 2
+      end
+    end
   end
 
   describe 'Delete position' do
@@ -172,6 +200,16 @@ RSpec.describe FrontendApi::Commands::PositionUpdate do
       expect(last_response.status).to eq(200)
       expect(first_entity.reload.position).to eq 1
       expect(third_entity.reload.position).to eq 2
+    end
+
+    context 'when dataset is present' do
+      let(:id) { first_entity.id }
+
+      it 'updade position use dataset' do
+        request
+        expect(last_response.status).to eq(200)
+        expect(third_entity.reload.position).to eq 2
+      end
     end
   end
 end
