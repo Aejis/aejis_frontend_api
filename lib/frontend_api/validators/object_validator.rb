@@ -92,6 +92,14 @@ module FrontendApi
     end
 
     # predefined validation method
+    # checks that length of attr value is not longer then given length
+    def max_length(attrs, length)
+      Array(attrs).each do |attr|
+        error(attr, "is is too long (maximum is #{length} characters)") if @object.send(attr).size > length
+      end
+    end
+
+    # predefined validation method
     # checks that the value is a file of any of given MIME types, subtypes, mediatypes
     # @see MimeMagic for details
     def mime(attrs, *mimes)
