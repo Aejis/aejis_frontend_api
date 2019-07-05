@@ -57,6 +57,36 @@ RSpec.describe FrontendApi::ModelValidator do
       end
     end
 
+    describe 'max_length' do
+      let(:validator_class) { Class.new(described_class) { validates :max_length, :foo, :count } }
+      let(:validator) { validator_class.new(object) }
+      let(:count) { 5 }
+      let!(:error) { "is is too long (maximum is   %{@object.send(count)}  characters)" }
+
+      before { validator.validate }
+
+      context 'when length is the same' do
+        let(:object) { OpenStruct.new(foo: 'baris', count: count) }
+
+        it { expect(validator.valid?).to eq(true) }
+        it { expect(validator.errors).to be_empty }
+      end
+
+      context 'when length is too long' do
+        let(:object) { OpenStruct.new(foo: 'barisov', count: count) }
+
+        it { expect(validator.valid?).to eq(false) }
+        it { expect(validator.errors).to eq(foo: [error]) }
+      end
+
+      context 'when length is short' do
+        let(:object) { OpenStruct.new(foo: 'bar', count: count) }
+
+        it { expect(validator.valid?).to eq(true) }
+        it { expect(validator.errors).to be_empty }
+      end
+    end
+
     describe 'uniqueness' do
       before :all do
         DB.create_table :dummies do
