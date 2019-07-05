@@ -93,9 +93,9 @@ module FrontendApi
 
     # predefined validation method
     # checks that length of attr value is not longer then given length
-    def max_length(attrs, count)
+    def max_length(attrs, length)
       Array(attrs).each do |attr|
-        error(attr, "is is too long (maximum is   %{@object.send(count)}  characters)") if @object.send(attr).size > @object.send(count)
+        error(attr, "is is too long (maximum is   #{length}  characters)") if @object.send(attr).size > length
       end
     end
 
