@@ -61,7 +61,7 @@ RSpec.describe FrontendApi::ModelValidator do
       let(:validator_class) { Class.new(described_class) { validates :max_length, :foo, 5 } }
       let(:validator) { validator_class.new(object) }
       let!(:length) { 5 }
-      let!(:error) { "is is too long (maximum is #{length} characters)" }
+      let!(:error) { "is too long (maximum is #{length} characters)" }
 
       before { validator.validate }
 
