@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    frontend_api (0.2.9)
+    frontend_api (0.2.10)
       sequel (~> 5.9)
 
 GEM
